@@ -27,7 +27,7 @@ public class mom : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
 
-        if (other.gameObject.tag == "coraline")
+        if (other.gameObject.tag == "Player")
         {
             print("gameover!");
             SceneManager.LoadScene(1);
