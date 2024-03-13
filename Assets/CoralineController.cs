@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CoralineController : MonoBehaviour
 {
+    public Animator animator;
+
     [SerializeField]
     float speed = 10;
 
@@ -30,7 +32,7 @@ public class CoralineController : MonoBehaviour
     void Update()
     {
 
-   float moveX = Input.GetAxisRaw("Horizontal");
+    float moveX = Input.GetAxisRaw("Horizontal");
     float moveY = Input.GetAxisRaw("Vertical");
 
     Vector2 movement = new Vector2(moveX, 0).normalized * speed * Time.deltaTime;
@@ -46,6 +48,8 @@ public class CoralineController : MonoBehaviour
     {
         hasJumped = true;
     }
+
+    animator.SetFloat("speed", moveX);
     }
 
 
