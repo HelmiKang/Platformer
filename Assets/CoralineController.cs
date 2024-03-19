@@ -7,50 +7,69 @@ public class CoralineController : MonoBehaviour
     public Animator animator;
 
     [SerializeField]
-    float speed = 10;
+  float speed = 5;
 
-     [SerializeField]
-    float JumpForce = 3000;
+  [SerializeField]
+  float jumpForce = 3000;
 
+  [SerializeField]
+  LayerMask groundLayer;
 
-    Rigidbody2D RBody;
-    bool hasJumped = false;
+  [SerializeField]
+  float groundRadius = 0.2f;
 
-    void Awake()
-        {
-            RBody = GetComponent<Rigidbody2D>();
-        }
-    
+  Rigidbody2D rBody;
+  bool hasReleasedJumpButton = true;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+  void Awake()
+  {
+    rBody = GetComponent<Rigidbody2D>();
+  }
 
-    // Update is called once per frame
-    void Update()
-    {
+  // Update is called once per frame
+  void Update()
+  {
+    // Debug.DrawLine(Vector2.zero, Vector2.down * 8, Color.green);
 
     float moveX = Input.GetAxisRaw("Horizontal");
-    float moveY = Input.GetAxisRaw("Vertical");
 
-    Vector2 movement = new Vector2(moveX, 0).normalized * speed * Time.deltaTime;
+    Vector2 movement = new Vector2(moveX, 0) * speed * Time.deltaTime;
 
     transform.Translate(movement);
 
-    if(Input.GetAxisRaw("Jump")>0 && hasJumped == true)
+    // bool isGrounded = Physics2D.OverlapCircle(GetFootPosition(), groundRadius, groundLayer);
+    bool isGrounded = Physics2D.OverlapBox(GetFootPosition(), GetFootSize(), 0, groundLayer);
+
+    if (Input.GetAxisRaw("Jump") > 0 && hasReleasedJumpButton == true && isGrounded)
     {
-        hasJumped = false;
-        RBody.AddForce(Vector2.up*JumpForce);
+      Debug.Log("JUMP!");
+      rBody.AddForce(Vector2.up * jumpForce);
+      hasReleasedJumpButton = false;
     }
+
     if (Input.GetAxisRaw("Jump") == 0)
     {
-        hasJumped = true;
+      hasReleasedJumpButton = true;
     }
 
     animator.SetFloat("speed", moveX);
-    }
+  }
 
+  private Vector2 GetFootPosition()
+  {
+    float height = GetComponent<Collider2D>().bounds.size.y;
+    return transform.position + Vector3.down * height / 2;
+  }
 
+  private Vector2 GetFootSize()
+  {
+    return new Vector2(GetComponent<Collider2D>().bounds.size.x * 0.9f, 0.1f);
+  }
+
+  private void OnDrawGizmosSelected()
+  {
+    Gizmos.DrawWireCube(GetFootPosition(), GetFootSize());
+
+    
+  }
 }
