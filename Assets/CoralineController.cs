@@ -15,9 +15,6 @@ public class CoralineController : MonoBehaviour
   [SerializeField]
   LayerMask groundLayer;
 
-  [SerializeField]
-  float groundRadius = 0.2f;
-
   Rigidbody2D rBody;
   bool hasReleasedJumpButton = true;
 
@@ -39,10 +36,10 @@ public class CoralineController : MonoBehaviour
 
     // bool isGrounded = Physics2D.OverlapCircle(GetFootPosition(), groundRadius, groundLayer);
     bool isGrounded = Physics2D.OverlapBox(GetFootPosition(), GetFootSize(), 0, groundLayer);
+    // print(isGrounded);
 
     if (Input.GetAxisRaw("Jump") > 0 && hasReleasedJumpButton == true && isGrounded)
     {
-      Debug.Log("JUMP!");
       rBody.AddForce(Vector2.up * jumpForce);
       hasReleasedJumpButton = false;
     }
