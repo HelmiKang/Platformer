@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class CoralineController : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class CoralineController : MonoBehaviour
 
   Rigidbody2D rBody;
   bool hasReleasedJumpButton = true;
+
+
 
   void Awake()
   {
@@ -50,6 +54,13 @@ public class CoralineController : MonoBehaviour
     }
 
     animator.SetFloat("speed", moveX);
+
+    if (transform.position.y < -40)
+    {
+      print("gameover!");
+      SceneManager.LoadScene(1);
+    }
+
   }
 
   private Vector2 GetFootPosition()

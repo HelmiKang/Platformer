@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class FollowThePath : MonoBehaviour {
+public class FollowThePath : MonoBehaviour
+{
 
     // Array of waypoints to walk from one to the next one
     [SerializeField]
@@ -12,16 +13,19 @@ public class FollowThePath : MonoBehaviour {
     // Index of current waypoint from which Enemy walks to the next one
     private int waypointIndex = 0;
 
-	private void Start () {
+    private void Start()
+    {
 
         // Set position of Enemy as position of the first waypoint
         transform.position = waypoints[waypointIndex].transform.position;
-	}
-	
-	private void Update () {
+    }
 
+    private void Update()
+    {
+
+        // print(waypointIndex);
         Move();
-	}
+    }
 
     // Method that actually make Enemy walk
     private void Move()
@@ -33,14 +37,15 @@ public class FollowThePath : MonoBehaviour {
 
             // Move Enemy from current waypoint to the next one
             // using MoveTowards method
-            transform.position = Vector2.MoveTowards(transform.position,
+            transform.position = Vector3.MoveTowards(transform.position,
                waypoints[waypointIndex].transform.position,
                moveSpeed * Time.deltaTime);
+
 
             // If Enemy reaches position of waypoint he walked towards
             // then waypointIndex is increased by 1
             // and Enemy starts to walk to the next waypoint
-            if (transform.position == waypoints[waypointIndex].transform.position)
+            if (Vector3.Distance(transform.position, waypoints[waypointIndex].transform.position) < 0.1f)
             {
                 waypointIndex += 1;
             }

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 public class buttoncounter : MonoBehaviour
 {
@@ -22,7 +24,11 @@ public class buttoncounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+    if (currentButtons == 4)
+    {
+      print("You win!");
+      SceneManager.LoadScene(2);
+    }
     }
 
     public void increaseButtons( int v)
